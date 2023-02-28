@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "634818228357",
+    "project_id": "e-gate-9122b",
+    "storage_bucket": "e-gate-9122b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634818228357:android:8ba60dfc1b560c0cf0f9ec",
+        "android_client_info": {
+          "package_name": "com.schoolmanagement.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634818228357-m5519shgmr7ndd3rnblfsq50sl4jevoq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0zYqjoMZNOp4lop0y8HKqWBPnqIPpk0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634818228357-m5519shgmr7ndd3rnblfsq50sl4jevoq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
