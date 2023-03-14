@@ -23,7 +23,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
       'Cookie': 'ci_session=e27b9a709e79f067f9b5f2e6f6541ff1595521a5'
     };
     var request = http.MultipartRequest('GET', Uri.parse('${ApiPath.baseUrl}pages/privacy_policy'));
-    print("oooooooooo ${ApiPath.baseUrl}privacy_policy");
+   // print("oooooooooo ${ApiPath.baseUrl}privacy_policy");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

@@ -456,7 +456,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   border: OutlineInputBorder(
                                                       borderSide: BorderSide.none
                                                   ),
-                                                  hintText: "Enter Email",
+                                                  hintText: "Enter userId",
                                                 prefixIcon: Image.asset('assets/AuthAssets/Icon material-email.png', scale: 1.3, color: primaryColor,),
                                               ),),),
                                       ),

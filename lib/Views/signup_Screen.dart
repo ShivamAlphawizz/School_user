@@ -360,6 +360,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     request.fields.addAll({
       'search_keyword': codeController.text.toString(),
     });
+    print(" show detail api  ${ApiPath.baseUrl}show_details and ${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
@@ -370,7 +371,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
        detailsModel = jsonResponse.data;
       });
-    print("details are here now ${detailsModel!.driverId} and ${detailsModel!.schoolId} and ${detailsModel!.parentId}");
+    // print("details are here now ${detailsModel!.driverId} and ${detailsModel!.schoolId} and ${detailsModel!.parentId}");
     }
     else {
       print(response.reasonPhrase);
@@ -849,7 +850,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               //   ),
                               // ),
                               SizedBox(height: 10,),
-                              Text("Parant Occupation", style: TextStyle(fontWeight: FontWeight.w800,fontFamily: 'Serif')),
+                              Text("Parent Occupation", style: TextStyle(fontWeight: FontWeight.w800,fontFamily: 'Serif')),
                               Material(
                                 elevation: 10,
                                 borderRadius: BorderRadius.circular(10),
@@ -904,11 +905,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                   );
                                   if (pickedDate != null) {
-                                    print( "This is picked date" + pickedDate.toString());
+                                 //   print( "This is picked date" + pickedDate.toString());
                                   //  pickedDate output format => 2021-03-10 00:00:00.000
                                     dateOfBirth = DateFormat('dd-MM-yyyy').format(pickedDate);
-                                    print("final formated date here" +
-                                        dateOfBirth.toString()); //formatted date output using intl package =>  2021-03-16
+                                    // print("final formated date here" +
+                                    //     dateOfBirth.toString()); //formatted date output using intl package =>  2021-03-16
                                     setState(() {
                                       // dateInput.text =
                                       //     formattedDate; //set output date to TextField value.
@@ -953,7 +954,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                               SizedBox(height: 10,),
-                              Text("Parant Relation", style: TextStyle(fontWeight: FontWeight.w800,fontFamily: 'Serif')),
+                              Text("Parent Relation", style: TextStyle(fontWeight: FontWeight.w800,fontFamily: 'Serif')),
                               Material(
                                 elevation: 10,
                                 borderRadius: BorderRadius.circular(10),

@@ -12,6 +12,7 @@ import 'package:job_dekho_app/Utils/api_path.dart';
 import 'package:job_dekho_app/Views/Recruiter/recruiterdrawer_Screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:job_dekho_app/Views/Student/SubscriptionPage.dart';
+import 'package:job_dekho_app/Views/Student/editStudent.dart';
 import 'package:job_dekho_app/Views/Student/studentDetailScreen.dart';
 import 'package:job_dekho_app/Views/notification_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? planStatus;
   var statusResult;
   getParentDetail()async{
-    print("parant detail");
+   // print("parant detail");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('userid');
     var headers = {
@@ -51,12 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      print("this is response===========>${request.fields}");
+  //    print("this is response===========>${request.fields}");
       var finalResponse = await response.stream.bytesToString();
       final jsonResponse = json.decode(finalResponse);
       setState(() {
         planStatus = jsonResponse['data'][0]['plan_status'].toString();
-        print(" this is plane--------->${planStatus}");
+       // print(" this is plane--------->${planStatus}");
       });
     }
     else {
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
       var finalResult = await response.stream.bytesToString();
       final jsonResponse = MyPlanModel.fromJson(json.decode(finalResult));
-      print(" this is ususu=====>${jsonResponse.data![0].planId}");
+     // print(" this is ususu=====>${jsonResponse.data![0].planId}");
 
       setState(() {
         myPlanModel = jsonResponse;
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
         print("jdgvdgdfgfdg");
       }
       else{
-        print("Surendra");
+      ///  print("Surendra");
         getParentCheckStudent();
       }
       // if(myPlanModel == null){
@@ -127,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   getParentCheckStudent() async {
-    print("data hre now working");
+  //  print("data hre now working");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('userid');
     var headers = {
@@ -138,15 +139,15 @@ class _HomeScreenState extends State<HomeScreen> {
       'plan_id': "${myPlanId}",
       'parent_id': "${userid}"
     });
-    print("this is prametrer=============>${request.fields}");
+   // print("this is prametrer=============>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    print("this is respose=============>${response.statusCode}");
+  //  print("this is respose=============>${response.statusCode}");
     if (response.statusCode == 200) {
-      print("this is respose=============>${response.statusCode}");
+     // print("this is respose=============>${response.statusCode}");
       var finalResult = await response.stream.bytesToString();
       final jsonResponse = json.decode(finalResult);
-      print(" this is jassssssssssssssss==> ${jsonResponse}");
+   //   print(" this is jassssssssssssssss==> ${jsonResponse}");
       if(jsonResponse['response_code'] == "0"){
         setState(() {
           statusResult = "0";
@@ -166,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
   getStudentsList()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('userid');
-    print("uuuuuuuuu ${userid}");
+   // print("uuuuuuuuu ${userid}");
     var headers = {
       'Cookie': 'ci_session=c633cb367a54761b1ebcb2e2feb0dde45f928762'
     };
@@ -174,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
     request.fields.addAll({
       'id': '${userid}'
     });
-    print("student detail parm ${ApiPath.baseUrl}get_students_details and ${userid}");
+  //  print("student detail parm ${ApiPath.baseUrl}get_students_details and ${userid}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -218,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   BannerModel? bannerModel;
   getbanner()async {
-    print("banner section");
+ //   print("banner section");
     var headers = {
       'Cookie': 'ci_session=055b59d73b5b89adf30482e59e4eb111b23c7f4f'
     };
@@ -410,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       items: bannerModel!.data!.map((val) {
-                        print("ooooooo ${ApiPath.imgUrl}${val.image}");
+                      //  print("ooooooo ${ApiPath.imgUrl}${val.image}");
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -476,9 +477,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10),
                       child: InkWell(
-                        onTap: (){
+                        onTap: ()async{
                           print("llllllllll ${studentModel!.data![i].id}");
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => StudentDetailScreen(studentModel: studentModel!.data![i],)));
+                      bool isresult =  await   Navigator.push(context, MaterialPageRoute(builder: (context) => StudentDetailScreen(studentModel: studentModel!.data![i],)));
+                        if(isresult == true){
+                          setState(() {
+                            _refresh();
+                          });
+                        }
                         },
                         child: Card(
                           elevation: 1,
@@ -493,7 +499,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("${studentModel!.data![i].username}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 16,fontFamily: 'Serif'),),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("${studentModel!.data![i].username}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 16,fontFamily: 'Serif'),),
+                                    IconButton(onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => EditStudent(studentModel: studentModel!.data![i],planId: myPlanId.toString(),)));
+                                    }, icon: Icon(Icons.edit,size: 20,)),
+                                  ],
+                                ),
                                 SizedBox(height: 10,),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
