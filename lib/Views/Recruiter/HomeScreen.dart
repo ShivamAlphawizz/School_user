@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final jsonResponse = json.decode(finalResponse);
       setState(() {
         planStatus = jsonResponse['data'][0]['plan_status'].toString();
-       // print(" this is plane--------->${planStatus}");
+        print(" this is plane--------->${planStatus}");
       });
     }
     else {
@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'plan_id': "${myPlanId}",
       'parent_id': "${userid}"
     });
-   // print("this is prametrer=============>${request.fields}");
+    print("this is prametrer=============>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
   //  print("this is respose=============>${response.statusCode}");
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
      // print("this is respose=============>${response.statusCode}");
       var finalResult = await response.stream.bytesToString();
       final jsonResponse = json.decode(finalResult);
-   //   print(" this is jassssssssssssssss==> ${jsonResponse}");
+         print(" this is jassssssssssssssss==> ${jsonResponse}");
       if(jsonResponse['response_code'] == "0"){
         setState(() {
           statusResult = "0";
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
     request.fields.addAll({
       'id': '${userid}'
     });
-  //  print("student detail parm ${ApiPath.baseUrl}get_students_details and ${userid}");
+   print("student detail parm ${ApiPath.baseUrl}get_students_details and ${userid}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -363,6 +363,18 @@ class _HomeScreenState extends State<HomeScreen> {
           if(result1 == true) {
             return _refresh();
           }
+          if(result1 == true){
+            return getStudentsList();
+          }
+          if(result1 == true){
+            return mySubscription();
+          }
+          if(result1 == true){
+            return getParentDetail();
+          }
+          setState(() {
+
+          });
           //});
         }
     //  }

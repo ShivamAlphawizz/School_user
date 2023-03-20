@@ -350,6 +350,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController codeController = TextEditingController();
 
+  bool isLoading = false;
   Data? detailsModel;
   showDetails() async {
     print("Show Details Api@@@@@@");
@@ -871,7 +872,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                       hintText: "Parents occupation",
                                     ),
-                                  ),
+                                  ), 
                                 ),
                               ),
                               SizedBox(height: 10,),
@@ -880,10 +881,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onTap: ()async{
                                   final DateTime? pickedDate = await showDatePicker(
                                     context: context,
-                                    initialDate: DateTime.now(),
+                                    initialDate: DateTime.now(), 
                                     firstDate: DateTime(1950),
                                     //DateTime.now() - not to allow to choose before today.
-                                    lastDate: DateTime(2100),
+                                    lastDate: DateTime.now(),
                                     builder: (context, child) {
                                       // print("this is current date ${dateInput.toString()}");
                                       return Theme(
@@ -1150,21 +1151,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                      detailsModel == null ? SizedBox.shrink() : InkWell(
                           onTap: (){
+
                             if(_formKey.currentState!.validate()){
+                              setState(() {
+                                isLoading = true;
+                              });
                             if(detailsModel == null || detailsModel == ""){
                               Fluttertoast.showToast(msg: "Please enter driver and school detail with code");
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
                             else if(addharController.text.length != 12){
                               Fluttertoast.showToast(msg: "Please enter valid addhar number");
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
                             else if(emergencyController.text.length !=10){
                               Fluttertoast.showToast(msg: "Enter valid mobile number");
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
                             else{
+
                               registerUser();
                             }
                             }
                             else{
+                              setState(() {
+                                isLoading = false;
+                              });
                               Fluttertoast.showToast(msg: "All fields are required");
                             }
                           },
@@ -1176,7 +1194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               borderRadius: BorderRadius.circular(10),
                               color: primaryColor
                             ),
-                            child: Text("Submit",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 14,fontFamily: 'Serif'),),
+                            child: isLoading == true ? CircularProgressIndicator() : Text("Submit",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 14,fontFamily: 'Serif'),),
                           ),
                         ),
                         SizedBox(

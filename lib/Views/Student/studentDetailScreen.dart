@@ -311,8 +311,8 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(110),
-                                child: Image.network("${ApiPath.imgUrl1}${widget.studentModel!.schoolImage}",fit: BoxFit.fill,)),
+                                borderRadius: BorderRadius.circular(110), 
+                                child: Image.network("${ApiPath.imgUrl}profile_pics/${widget.studentModel!.schoolImage}",fit: BoxFit.fill,)),
                           ),
                           SizedBox(width: 10,),
                           Text("${widget.studentModel!.uname}",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w600),),
