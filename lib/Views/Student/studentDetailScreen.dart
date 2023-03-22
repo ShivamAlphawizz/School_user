@@ -14,6 +14,7 @@ import 'package:job_dekho_app/Views/Student/trackChild.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Utils/color.dart';
+import 'GetLocation.dart';
 
 class StudentDetailScreen extends StatefulWidget {
  final Data? studentModel;
@@ -29,19 +30,37 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
   String? selectedTime;
   String picUpTime = '';
   String dropTime = '';
-  getLocation() async {
-    LocationPermission permission;
-    permission = await Geolocator.requestPermission();
-    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    print("lati" + position!.latitude.toString());
-    print("longi" + position!.longitude.toString());
-  }
+  GetLocation? location;
+  // getLocation() async {
+  //    location = new GetLocation((result) {
+  //     // if (mounted) {
+  //     setState(() {
+  //       // String address = result.first.addressLine;
+  //       // pickLat = result.first.coordinates.latitude;
+  //       // pickLong = result.first.coordinates.longitude;
+  //       // addressController.text = address;
+  //     });
+  //     print("this is address ${result.first.addressLine}");
+  //     // }
+  //   });
+  //   location!.getLoc();
+  // //  print("this is current location --->>> ${addressController.text.toString()}");
+  //
+  //    // print("working here");
+  //    // LocationPermission permission;
+  //    // permission = await Geolocator.requestPermission();
+  //    // position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  //    // print("position here now ${position}");
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getLocation();
+    //Future.delayed(Duration(milliseconds: 400),(){
+    //  return
+      //  getLocation();
+  //  });
     Future.delayed(Duration(milliseconds: 300),(){
       return getGaurdianDetail();
     });
@@ -377,8 +396,9 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                      Fluttertoast.showToast(msg: "Driver location is not available");
                    }
                    else{
-                     Future.delayed(Duration(milliseconds: 500),(){
-                       return  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(position: position!,glat: glat,glong: glong,dlat: dlat,dlong: dlong,)));
+
+                     Future.delayed(Duration(milliseconds: 1000),(){
+                       return  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(glat: glat,glong: glong,dlat: dlat,dlong: dlong,)));
                      });
                    }
                   },

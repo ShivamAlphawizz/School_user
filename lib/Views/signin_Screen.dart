@@ -204,7 +204,7 @@ class _SignInScreenState extends State<SignInScreen> {
       'password': '${passwordController.text}',
       'token':token.toString(),
     });
-    print("Checking all fields here ${request.fields}");
+    print("Checking all fields here ${request.fields} and ${ApiPath.baseUrl}login");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -242,6 +242,8 @@ class _SignInScreenState extends State<SignInScreen> {
       print(jsonResponse.toString());
     }
   }
+
+bool showPasword = false;
 
 
   @override
@@ -468,9 +470,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                             width: MediaQuery.of(context).size.width / 1.2,
                                             height: 58,
                                             child: TextField(
-                                              obscureText: true,
+                                              obscureText: showPassword ==true ? false: true,
                                               controller: passwordController,
                                               decoration: InputDecoration(
+                                                suffixIcon: InkWell(
+                                                    onTap: (){
+                                                      setState(() {
+                                                        showPassword = !showPassword;
+                                                      });
+                                                    },
+                                                    child: showPassword == true ? Icon(Icons.visibility_off) : Icon(Icons.visibility)),
                                                 border: OutlineInputBorder(
                                                     borderSide: BorderSide.none
                                                 ),

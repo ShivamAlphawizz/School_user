@@ -1,6 +1,5 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
 
 class GetLocation{
@@ -38,26 +37,26 @@ class GetLocation{
       print("${currentLocation.latitude} : ${currentLocation.longitude}");
       _currentPosition = currentLocation;print(currentLocation.latitude);
 
-      _getAddress(_currentPosition!.latitude,
-          _currentPosition!.longitude)
-          .then((value) {
-        _address = "${value.first.coordinates.longitude}";
-        firstLocation = value.first.subLocality.toString();
-        lat = _currentPosition!.latitude.toString();
-        lng = _currentPosition!.longitude.toString();
-        if(latitude==0){
-          onResult(value);
-        }
-      });
+      // _getAddress(_currentPosition!.latitude,
+      //     _currentPosition!.longitude)
+      //     .then((value) {
+      //   _address = "${value.first.coordinates.longitude}";
+      //   firstLocation = value.first.subLocality.toString();
+      //   lat = _currentPosition!.latitude.toString();
+      //   lng = _currentPosition!.longitude.toString();
+      //   if(latitude==0){
+      //     onResult(value);
+      //   }
+      // });
     });
   }
 
-  Future<List<Address>> _getAddress(double? lat, double? lang) async {
-    final coordinates = new Coordinates(lat, lang);
-    List<Address> add =
-    await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    return add;
-  }
+  // Future<List<Address>> _getAddress(double? lat, double? lang) async {
+  //   final coordinates = new Coordinates(lat, lang);
+  //   List<Address> add =
+  //   await Geocoder.local.findAddressesFromCoordinates(coordinates);
+  //   return add;
+  // }
 
 
 }

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:job_dekho_app/Views/Student/GetLocation.dart';
 
 
 class OrderTrackingPage extends StatefulWidget {
-  final Position position;
+
   final String? dlat,dlong,glat,glong;
-  OrderTrackingPage({required this.position,this.glong,this.glat,this.dlong,this.dlat});
+  OrderTrackingPage({this.glong,this.glat,this.dlong,this.dlat});
 
 
   @override
@@ -22,13 +23,13 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   List<LatLng> polylineCoordinates = [];
    getPolyPoints() async {
-
+    print("lat and long here ${widget.glat}");
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      //"AIzaSyBmUCtQ_DlYKSU_BV7JdiyoOu1i4ybe-z0", // Your Google Map Key
-      "AIzaSyCRlWsC4r9pE2hOE-qzJmaT-jEt3g9NM9Y",  // live api key
-      PointLatLng(double.parse(widget.glat!), double.parse(widget.glong!)),
-      PointLatLng(double.parse(widget.dlat!), double.parse(widget.dlong!)),
+      "AIzaSyBmUCtQ_DlYKSU_BV7JdiyoOu1i4ybe-z0", // Your Google Map Key
+     // "AIzaSyCRlWsC4r9pE2hOE-qzJmaT-jEt3g9NM9Y",  // live api key
+      PointLatLng(double.parse(widget.glat.toString()), double.parse(widget.glong.toString())),
+      PointLatLng(double.parse(widget.dlat.toString()), double.parse(widget.dlong.toString())),
     );
     if (result.points.isNotEmpty) {
       result.points.forEach(

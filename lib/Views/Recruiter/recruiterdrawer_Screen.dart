@@ -13,6 +13,7 @@ import 'package:job_dekho_app/Views/changepassword_Screen.dart';
 import 'package:job_dekho_app/Views/contactus_Screen.dart';
 import 'package:job_dekho_app/Views/Recruiter/recruitermyprofile_Screen.dart';
 import 'package:job_dekho_app/Views/notification_Screen.dart';
+import 'package:job_dekho_app/Views/parentFeedback.dart';
 import 'package:job_dekho_app/Views/signin_Screen.dart';
 import 'package:job_dekho_app/Views/updatejobpost_Screen.dart';
 import 'package:job_dekho_app/Views/privacypolicy_Screen.dart';
@@ -156,6 +157,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   CustomDrawerTile(tileName: 'Profile', tileIcon: Image.asset(profileIconR, scale: 1.3,),onTap: (){Get.to(UserProfile());},),
                    CustomDrawerTile(tileName: 'Subscription', tileIcon: Image.asset(changepasswordIconR, scale: 1.3,), onTap: (){Get.to(SubscriptionPage());},),
                   CustomDrawerTile(tileName: 'Share App', tileIcon: Image.asset(shareappIconR, scale: 1.3,),onTap: (){Get.to(share());},),
+                  CustomDrawerTile(tileName: "Parent Feedback", tileIcon:Image.asset(privactpolicyIconR, scale: 1.3,), onTap: (){Get.to(ParentFeedback()); }, ),
                   CustomDrawerTile(tileName: 'My Subscription', tileIcon: Image.asset(notificationIconR, scale: 1.3,),onTap: (){Get.to(MySubscription());}),
                   CustomDrawerTile(tileName: 'Privacy Policy', tileIcon: Image.asset(privactpolicyIconR, scale: 1.3,), onTap: (){Get.to(PrivacyPolicyScreen());},),
                   CustomDrawerTile(tileName: 'Terms & Conditions', tileIcon: Image.asset(termsandconditionIconR, scale: 1.3,),onTap: (){Get.to(TermsAndConditionScreen());},),
