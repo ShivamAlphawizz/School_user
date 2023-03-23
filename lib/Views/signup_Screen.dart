@@ -451,6 +451,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  String shiftValue = '';
   registerUser() async {
    // Shared
     print("Register User Api>>>>>>");
@@ -476,6 +477,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'division': divisionController.text,
       'emergency_no': emergencyController.text,
         'plan_id': planId.toString(),
+      'shift': shiftValue.toString(),
     });
     request.headers.addAll(headers);
 
@@ -1056,6 +1058,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         onChanged: (value){
                                           setState(() {
                                             gender = value.toString();
+                                          });
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: RadioListTile(
+                                        title: Text("Morning",style: TextStyle(fontFamily: 'Serif'),),
+                                        value: "morning",
+                                        groupValue: shiftValue,
+                                        onChanged: (value){
+                                          setState(() {
+                                            shiftValue = value.toString();
+                                          });
+                                          print("shift value ${shiftValue}");
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: RadioListTile(
+                                        title: Text("Evening",style: TextStyle(fontFamily: 'Serif'),),
+                                        value: "evening",
+                                        groupValue: shiftValue,
+                                        onChanged: (value){
+                                          setState(() {
+                                            shiftValue = value.toString();
                                           });
                                         },
                                       ),

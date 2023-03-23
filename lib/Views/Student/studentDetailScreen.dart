@@ -396,7 +396,6 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                      Fluttertoast.showToast(msg: "Driver location is not available");
                    }
                    else{
-
                      Future.delayed(Duration(milliseconds: 1000),(){
                        return  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(glat: glat,glong: glong,dlat: dlat,dlong: dlong,)));
                      });
