@@ -317,12 +317,14 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:job_dekho_app/Utils/CustomWidgets/jobseeker_Tab.dart';
 import 'package:job_dekho_app/Utils/CustomWidgets/recruiter_Tab.dart';
@@ -479,8 +481,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'plan_id': planId.toString(),
       'shift': shiftValue.toString(),
     });
+    recriuterImageFile == null ? null : request.files.add(await http.MultipartFile.fromPath('profile_pic', recriuterImageFile!.path.toString()));
     request.headers.addAll(headers);
-
     print("checking parameters of user register ${request.fields}");
     print("api here ${ApiPath.baseUrl}add_student");
     http.StreamedResponse response = await request.send();
@@ -497,6 +499,77 @@ class _SignUpScreenState extends State<SignUpScreen> {
     else {
       // Fluttertoast.showToast(msg: "${jsonResponse['message']}");
       print(response.reasonPhrase);
+    }
+  }
+
+  XFile? recriuterImageFile;
+  final ImagePicker _picker = ImagePicker();
+  Future<bool> showRecruiterProfileDialog() async {
+    return await showDialog(
+      //show confirm dialogue
+      //the return value will be from "Yes" or "No" options
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text('Select Image'),
+          content: Row(
+            // crossAxisAlignment: CrossAxisAlignment.s,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _getRecruiterFromCamera();
+                },
+                //return false when click on "NO"
+                child: Text('Camera'),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _getRecruiterFromGallery();
+                  // Navigator.pop(context,true);
+                  // Navigator.pop(context,true);
+                },
+                //return true when click on "Yes"
+                child: Text('Gallery'),
+              ),
+            ],
+          )),
+    ) ??
+        false; //if showDialouge had returned null, then return false
+  }
+
+  /// for recruiter profile upload
+  _getRecruiterFromGallery() async {
+    final XFile? pickedFile =
+    await _picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
+    /* PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );*/
+    if (pickedFile != null) {
+      setState(() {
+        recriuterImageFile = XFile(pickedFile.path);
+      });
+    //  uploadRecruiterProfile();
+      // uploadResume();
+      Navigator.pop(context);
+    }
+  }
+  /// for recruiter profile upload
+  _getRecruiterFromCamera() async {
+    final XFile? pickedFile =
+    await _picker.pickImage(source: ImageSource.camera, imageQuality: 100);
+    /*  PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );*/
+    if (pickedFile != null) {
+      setState(() {
+        recriuterImageFile = XFile(pickedFile.path);
+      });
+    //  uploadRecruiterProfile();
+      // uploadResume();
+      Navigator.pop(context);
     }
   }
 
@@ -910,7 +983,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (pickedDate != null) {
                                  //   print( "This is picked date" + pickedDate.toString());
                                   //  pickedDate output format => 2021-03-10 00:00:00.000
-                                    dateOfBirth = DateFormat('dd-MM-yyyy').format(pickedDate);
+                                    dateOfBirth = DateFormat('yyyy-MM-dd').format(pickedDate);
                                     // print("final formated date here" +
                                     //     dateOfBirth.toString()); //formatted date output using intl package =>  2021-03-16
                                     setState(() {
@@ -1176,6 +1249,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                               SizedBox(height: 10,),
+                              
+                              Align(
+                                alignment: Alignment.center,
+                                child: InkWell(
+                                  onTap: (){
+                                    showRecruiterProfileDialog();
+                                  },
+                                  child: Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: Color(0xffF5F5F5)
+                                    ),
+                                    child: recriuterImageFile == null ? Center(child: Icon(Icons.person),) : Image.file(File(recriuterImageFile!.path),fit: BoxFit.fill,)
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

@@ -92,6 +92,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
     request.fields.addAll({
       'id': '${userid}'
     });
+    print("dddddddddddddddddd ${ApiPath.baseUrl}get_gaurdians_details1   and ${userid}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -101,8 +102,8 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
       print("checking final response here ${jsonResponse['data'][0]['latitude']}");
 
       setState(() {
-        dlat = jsonResponse['data'][0]['latitude'].toString();
-        dlong = jsonResponse['data'][0]['longitude'].toString();
+        dlat = jsonResponse['data'][0]['driver_lat'].toString();
+        dlong = jsonResponse['data'][0]['driver_lang'].toString();
         glat =  jsonResponse['data'][0]['garudainlatitude'].toString();
         glong = jsonResponse['data'][0]['garudainlongitude'].toString();
       });
@@ -177,6 +178,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+   // getGaurdianDetail();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -397,6 +399,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                    }
                    else{
                      Future.delayed(Duration(milliseconds: 1000),(){
+                       print("driver lat long here ${dlat} and ${dlong}");
                        return  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(glat: glat,glong: glong,dlat: dlat,dlong: dlong,)));
                      });
                    }

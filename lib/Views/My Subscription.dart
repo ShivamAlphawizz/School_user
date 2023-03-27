@@ -85,94 +85,86 @@ class _MySubscriptionState extends State<MySubscription> {
               ),
               width: size.width,
               height: size.height,
-              child:  myPlanModel == null || myPlanModel == "" ?Center(child: Text("No Item Found")): Expanded(
-                child: ListView(
+              child:  myPlanModel == null || myPlanModel == "" ?Center(child: Text("No Item Found")):     ListView.builder(
                   shrinkWrap: true,
-                  children: [
-                    SizedBox(height: 10,),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        // scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: myPlanModel!.data!.length,
-                        // scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
+                  // scrollDirection: Axis.vertical,
+                  physics: ScrollPhysics(),
+                  itemCount: myPlanModel!.data!.length,
+                  // scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
 
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        elevation: 5,
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Status",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Serif'),),
+                                  Text("${myPlanModel!.data![index].tStatus}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Serif'),),
+
+
+                                ],
                               ),
-                              elevation: 5,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                ),
-                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("Status",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Serif'),),
-                                        Text("${myPlanModel!.data![index].tStatus}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Serif'),),
+                              SizedBox(height: 8,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Price",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
+                                  Text("\u{20B9} ${myPlanModel!.data![index].price}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
 
-
-                                      ],
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("Price",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
-                                        Text("\u{20B9} ${myPlanModel!.data![index].price}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
-
-                                      ],
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("Duration",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
-                                        Text("${myPlanModel!.data![index].timeText}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),)
-                                      ],
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("Start Date",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
-                                        Text("${myPlanModel!.data![index].startDate}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),)
-                                      ],
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text("Last Date",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
-                                        Text("${myPlanModel!.data![index].lastDate}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),)
-                                      ],
-                                    ),
-                                    
-                                  ],
-                                ),
+                                ],
                               ),
-                            ),
-                          );
-                        }),
-                  ],
-                ),
-              )
+                              SizedBox(height: 8,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Duration",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
+                                  Text("${myPlanModel!.data![index].timeText}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),)
+                                ],
+                              ),
+                              SizedBox(height: 8,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Start Date",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
+                                  Text("${myPlanModel!.data![index].startDate}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),)
+                                ],
+                              ),
+                              SizedBox(height: 8,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Last Date",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),),
+                                  Text("${myPlanModel!.data![index].lastDate}",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Serif'),)
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
             )
         ));
   }

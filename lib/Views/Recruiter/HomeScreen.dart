@@ -15,6 +15,7 @@ import 'package:job_dekho_app/Views/Student/SubscriptionPage.dart';
 import 'package:job_dekho_app/Views/Student/editStudent.dart';
 import 'package:job_dekho_app/Views/Student/studentDetailScreen.dart';
 import 'package:job_dekho_app/Views/notification_Screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Model/myPlanModel.dart';
 import '../../Services/push_notification_service.dart';
@@ -79,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
     request.fields.addAll({
       'user_id': '${userid}'
     });
-
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -177,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'id': '${userid}'
     });
 
+  //  print("checking api here ${ApiPath.baseUrl}get_students_details ----- and ${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -184,11 +185,19 @@ class _HomeScreenState extends State<HomeScreen> {
       final jsonResponse = StudentModel.fromJson(json.decode(finalResult));
       setState((){
         studentModel = jsonResponse;
+        _refresh();
       });
     }
     else {
       print(response.reasonPhrase);
     }
+  }
+
+  getPermissions()async{
+    await Permission.camera.request();
+    await Permission.location.request();
+    await Permission.storage.request();
+   // await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
 
   @override
@@ -198,13 +207,11 @@ class _HomeScreenState extends State<HomeScreen> {
     pushNotificationService.initialise();
     super.initState();
     // Future.delayed(Duration(milliseconds: 300),(){
-    //   return
+    //   return getPermissions();
     // });
+    getPermissions();
     mySubscription();
 
-    // Future.delayed(Duration(seconds: 1),(){
-    //   return getParentCheckStudent();
-    // });
 
 
     Future.delayed(Duration(milliseconds: 500),(){
@@ -290,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     @override
   Widget build(BuildContext context) {
-      _refresh();
+     //  _refresh();
     return
     RefreshIndicator(
    key: _refreshIndicatorKey,
@@ -321,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           backgroundColor: primaryColor,
-  floatingActionButton: FloatingActionButton(
+   floatingActionButton: FloatingActionButton(
       backgroundColor: primaryColor,
     onPressed: () async {
       // if(ResponseCode == true){
@@ -336,7 +343,9 @@ class _HomeScreenState extends State<HomeScreen> {
             if(statusResult == "0") {
             var result = await  Navigator.push(context, MaterialPageRoute(builder: (context) => SubscriptionPage()));
             if(result == true){
-              return _refresh();
+            setState(() {
+              _refresh();
+            });
             }
                 var snackBar = SnackBar(
                   content: Text('Add limit exceed',style: TextStyle(fontFamily: 'Serif'),),
@@ -357,20 +366,26 @@ class _HomeScreenState extends State<HomeScreen> {
          // }
               var result1 = await  Navigator.push(context, MaterialPageRoute(builder: (context) => SubscriptionPage()));
           if(result1 == true) {
-            return _refresh();
-          }
-          if(result1 == true){
-            return getStudentsList();
-          }
-          if(result1 == true){
-            return mySubscription();
-          }
-          if(result1 == true){
-            return getParentDetail();
-          }
           setState(() {
-
+            _refresh();
           });
+          }
+          if(result1 == true){
+            setState(() {
+              getStudentsList();
+            });
+          }
+          if(result1 == true){
+           setState(() {
+             mySubscription();
+           });
+          }
+          if(result1 == true){
+             setState(() {
+               getParentDetail();
+             });
+          }
+
           //});
         }
     //  }

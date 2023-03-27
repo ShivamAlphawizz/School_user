@@ -185,6 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
   String? token;
 
   getToken() async {
+    print("working this function");
      var fcmToken = await FirebaseMessaging.instance.getToken();
     setState(() {
       token = fcmToken.toString();

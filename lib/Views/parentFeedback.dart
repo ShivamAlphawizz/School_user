@@ -22,6 +22,8 @@ class _ParentFeedbackState extends State<ParentFeedback> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool isLoading = false;
+
   getfeedback() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? user_id = prefs.getString('userid');
@@ -127,15 +129,16 @@ class _ParentFeedbackState extends State<ParentFeedback> {
                         padding: const EdgeInsets.only(left: 20.0),
                         child: InkWell(
                           onTap: (){
+                            setState(() {
+                              isLoading = true;
+                            });
                             if(_formKey.currentState!.validate()){
                               getfeedback();
                             }
                             else{
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //     SnackBar(
-                              //       content: Center(child: Text('Feedback Fields are required')),
-                              //     )
-                              // );
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
 
                           },
@@ -147,7 +150,7 @@ class _ParentFeedbackState extends State<ParentFeedback> {
                             ),
                             height: 40,
                             width: MediaQuery.of(context).size.width/2,
-                            child: Center(child: Text('Feedback',style: TextStyle(color:whiteColor, fontFamily: 'Serif'),)),
+                            child: Center(child: isLoading == true  ?  CircularProgressIndicator() : Text('Feedback',style: TextStyle(color:whiteColor, fontFamily: 'Serif'),)),
                           ),
                         ),
                       ),
