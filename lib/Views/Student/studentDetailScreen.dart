@@ -81,7 +81,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
     });
   }
   
-  var glat,glong,dlat,dlong;
+  var glat,glong,dlat,dlong,slat,slong;
   getGaurdianDetail()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('userid');
@@ -106,6 +106,8 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
         dlong = jsonResponse['data'][0]['driver_lang'].toString();
         glat =  jsonResponse['data'][0]['garudainlatitude'].toString();
         glong = jsonResponse['data'][0]['garudainlongitude'].toString();
+        slat = jsonResponse['data'][0]['school_lat'].toString();
+        slong = jsonResponse['data'][0]['school_long'].toString();
       });
     }
     else {
@@ -397,10 +399,16 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                    if(dlong == null || dlong == "" || dlat == null || dlat == ""){
                      Fluttertoast.showToast(msg: "Driver location is not available");
                    }
+                   else if(glat == null || glong == null || glat == "" || glong == ""){
+                     Fluttertoast.showToast(msg: "Guardian location is not available");
+                   }
+                   else if(slong == null || slong == "" || slat == null || slat == ""){
+                     Fluttertoast.showToast(msg: "Driver location is not available");
+                   }
                    else{
                      Future.delayed(Duration(milliseconds: 1000),(){
                        print("driver lat long here ${dlat} and ${dlong}");
-                       return  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(glat: glat,glong: glong,dlat: dlat,dlong: dlong,)));
+                       return  Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(glat: glat,glong: glong,dlat: dlat,dlong: dlong,slat: slat,slong: slong,)));
                      });
                    }
                   },

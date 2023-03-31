@@ -12,8 +12,8 @@ import '../../Utils/api_path.dart';
 
 class OrderTrackingPage extends StatefulWidget {
 
-   String? dlat,dlong,glat,glong;
-  OrderTrackingPage({this.glong,this.glat,this.dlong,this.dlat});
+   String? dlat,dlong,glat,glong,slat,slong;
+  OrderTrackingPage({this.glong,this.glat,this.dlong,this.dlat,this.slat,this.slong});
 
 
   @override
@@ -26,6 +26,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
 
   List<LatLng> polylineCoordinates = [];
+  List<LatLng> schoolPolyCoordinates = [];
    getPolyPoints() async {
     print("lat and long here ${widget.glat}");
     PolylinePoints polylinePoints = PolylinePoints();
@@ -33,9 +34,17 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
       "AIzaSyBmUCtQ_DlYKSU_BV7JdiyoOu1i4ybe-z0", // Your Google Map Key
       //"AIzaSyCRlWsC4r9pE2hOE-qzJmaT-jEt3g9NM9Y",  // live api key
       PointLatLng(double.parse(widget.glat.toString()), double.parse(widget.glong.toString())),
-      PointLatLng(double.parse(widget.dlat.toString()), double.parse(widget.dlong.toString())),
+      PointLatLng(double.parse(widget.slat.toString()), double.parse(widget.slong.toString())),
+
     );
+
+    // PolylineResult result1 = await polylinePoints.getRouteBetweenCoordinates(
+    //     "AIzaSyBmUCtQ_DlYKSU_BV7JdiyoOu1i4ybe-z0",
+    //   PointLatLng(double.parse(widget.dlat.toString()), double.parse(widget.dlong.toString())),
+    //   PointLatLng(double.parse(widget.slat.toString()), double.parse(widget.slong.toString())),
+    // );
     if (result.points.isNotEmpty) {
+      polylineCoordinates.clear();
       result.points.forEach(
             (PointLatLng point) => polylineCoordinates.add(
           LatLng(point.latitude, point.longitude),
@@ -43,15 +52,22 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
       );
       setState(() {});
     }
+    // if(result1.points.isNotEmpty){
+    //   schoolPolyCoordinates.clear();
+    //   result1.points.forEach((PointLatLng point) => polylineCoordinates.add(LatLng(point.latitude, point.longitude)));
+    //   setState(() {
+    //
+    //   });
+    // }
   }
 
 
   @override
   void initState() {
     // TODO: implement initState
-    Future.delayed(Duration(milliseconds: 500),(){
-      return getPolyPoints();
-    });
+    // Future.delayed(Duration(milliseconds: 500),(){
+    //   return getPolyPoints();
+    // });
   //  getCurrentLocation();
   //   Future.delayed(Duration(milliseconds: 500),(){
   //     return getLocation();
@@ -79,11 +95,13 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   // BitmapDescriptor? icon;
 
-  var destinationIcon;
+  var driverIcon,schoolIcon,homeIcon;
   getIcons() async {
-    destinationIcon = await BitmapDescriptor.fromAssetImage(
+    driverIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 4.6),
         'assets/bus2.png');
+    schoolIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 4.6), 'assets/schoolmage.png');
+    homeIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 4.6), 'assets/homeImage.png');
   }
 
 
@@ -111,6 +129,11 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
         widget.dlong = jsonResponse['data'][0]['driver_lang'].toString();
         widget.glat =  jsonResponse['data'][0]['garudainlatitude'].toString();
         widget.glong = jsonResponse['data'][0]['garudainlongitude'].toString();
+        widget.slat = jsonResponse['data'][0]['school_lat'].toString();
+        widget.slong = jsonResponse['data'][0]['school_long'].toString();
+      });
+      Future.delayed(Duration(milliseconds: 100),(){
+        return getPolyPoints();
       });
     }
     else {
@@ -133,12 +156,19 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
            Marker(
             markerId: MarkerId("source"),
             position: LatLng(double.parse(widget.glat!), double.parse(widget.glong!)),
+               icon: homeIcon == null ? BitmapDescriptor.defaultMarker : homeIcon
           ),
            Marker(
             markerId: MarkerId("destination"),
-            position:  LatLng(double.parse(widget.dlat!), double.parse(widget.dlong!)),
+            position:  LatLng(double.parse(widget.slat!), double.parse(widget.slong!)),
             // icon: BitmapDescriptor.fromAssetImage(configuration, assetName)
-             icon: destinationIcon == null ? BitmapDescriptor.defaultMarker : destinationIcon
+             icon: schoolIcon == null ? BitmapDescriptor.defaultMarker : schoolIcon
+          ),
+          Marker(
+              markerId: MarkerId("driver"),
+              position:  LatLng(double.parse(widget.dlat!), double.parse(widget.dlong!)),
+              // icon: BitmapDescriptor.fromAssetImage(configuration, assetName)
+              icon: driverIcon == null ? BitmapDescriptor.defaultMarker : driverIcon
           ),
         },
         polylines: {
