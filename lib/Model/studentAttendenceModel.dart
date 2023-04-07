@@ -115,7 +115,7 @@ class Data1 {
       String? countrycode, 
       String? mobile, 
       String? password, 
-      String? profilePic, 
+      String? profilePic,
       String? facebookId, 
       String? type, 
       String? occupation, 

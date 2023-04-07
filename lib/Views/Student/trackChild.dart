@@ -27,6 +27,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   List<LatLng> polylineCoordinates = [];
   List<LatLng> schoolPolyCoordinates = [];
+
    getPolyPoints() async {
     print("lat and long here ${widget.glat}");
     PolylinePoints polylinePoints = PolylinePoints();
@@ -35,18 +36,24 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
       //"AIzaSyCRlWsC4r9pE2hOE-qzJmaT-jEt3g9NM9Y",  // live api key
       PointLatLng(double.parse(widget.glat.toString()), double.parse(widget.glong.toString())),
       PointLatLng(double.parse(widget.slat.toString()), double.parse(widget.slong.toString())),
-
     );
 
-    // PolylineResult result1 = await polylinePoints.getRouteBetweenCoordinates(
-    //     "AIzaSyBmUCtQ_DlYKSU_BV7JdiyoOu1i4ybe-z0",
-    //   PointLatLng(double.parse(widget.dlat.toString()), double.parse(widget.dlong.toString())),
-    //   PointLatLng(double.parse(widget.slat.toString()), double.parse(widget.slong.toString())),
-    // );
+    PolylineResult result1 = await polylinePoints.getRouteBetweenCoordinates(
+        "AIzaSyBmUCtQ_DlYKSU_BV7JdiyoOu1i4ybe-z0",
+      PointLatLng(double.parse(widget.dlat.toString()), double.parse(widget.dlong.toString())),
+      PointLatLng(double.parse(widget.slat.toString()), double.parse(widget.slong.toString())),
+    );
+
     if (result.points.isNotEmpty) {
       polylineCoordinates.clear();
+      schoolPolyCoordinates.clear();
       result.points.forEach(
             (PointLatLng point) => polylineCoordinates.add(
+          LatLng(point.latitude, point.longitude),
+        ),
+      );
+      result1.points.forEach(
+            (PointLatLng point) => schoolPolyCoordinates.add(
           LatLng(point.latitude, point.longitude),
         ),
       );
@@ -177,6 +184,12 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
             points: polylineCoordinates,
             color: Color(0xFF7B61FF),
             width: 6,
+          ),
+          Polyline(
+            polylineId:  PolylineId("driver"),
+            points: schoolPolyCoordinates,
+            color: Colors.green,
+            width: 5,
           ),
         },
         onMapCreated: (mapController) {
